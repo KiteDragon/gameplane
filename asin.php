@@ -23,7 +23,6 @@
       * @author     Daniel Rohr <daniel@gameplane.de>
       * @license    GPLV3
       * @link       https://github.com/KiteDragon
-      * @see        NetOther, Net_Sample::Net_Sample()
       * @since      24.06.2016
       * 
       */     
