@@ -7,8 +7,8 @@
     <title>Amazon ref link generator GP</title>
   </head>
   <body>
-          <form action="asin.php" method="POST">
-              <label for="search">Suchbegriff oder ASIN eingeben
+          <form method="POST">
+              <label for="searchquery">Suchbegriff oder ASIN eingeben
                     <input type="text" id="searchquery" name="searchquery">
               <input type="submit" value="Suche Artikel"></br>
               </label>
@@ -59,11 +59,12 @@
         $dom->loadHTML($html);
 
         $arr = $dom->getElementsByTagName("a");
+        
+        $i = 0;
 
         // Durchlaufen aller <a> Tags und deren ChildNodes 
         // Aufbau: <a href=[LINK ZUM ARTIKEL]><h2>[BESCHREIBUNG ARTIKEL]</h2></a>
         // Ausgabe als <a> Tag
-        $i = 0;
         foreach ($arr as $product)
         {
            foreach ($product->childNodes as $headline)
