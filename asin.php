@@ -30,8 +30,11 @@
      if(isset($_POST["searchquery"]))
      {  
        
-       $amazon_tag = "gameplanede-21";
-       $limit      = 5;
+       // Amazon REF-Tag
+       $amazon_tag  = "gameplanede-21";
+       
+       // Ausgabelimit
+       $limit       = 5;
        
         // blanks durch '+' ersetzen und zum such link zussamensetzen
         $keywordstr = str_replace(" ", "+", $_POST["searchquery"]);
