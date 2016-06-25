@@ -29,12 +29,16 @@
   
      if(isset($_POST["searchquery"]))
      {  
+       
+       $amazon_tag = "gameplanede-21";
+       $limit      = 5;
+       
         // blanks durch '+' ersetzen und zum such link zussamensetzen
         $keywordstr = str_replace(" ", "+", $_POST["searchquery"]);
         $searchurl  = "https://www.amazon.de/s/&url=search-alias%3Daps&field-keywords=". $keywordstr;
 
         //Referenz ID 
-        $ref        = "&tag="."gameplanede-21";
+        $ref        = "&tag=".$amazon_tag;
 
         //Download des HTML codes der Ergebnisseite 
         $ch = curl_init($searchurl);
@@ -56,6 +60,7 @@
         // Durchlaufen aller <a> Tags und deren ChildNodes 
         // Aufbau: <a href=[LINK ZUM ARTIKEL]><h2>[BESCHREIBUNG ARTIKEL]</h2></a>
         // Ausgabe als <a> Tag
+        $i = 0;
         foreach ($arr as $product)
         {
            foreach ($product->childNodes as $headline)
@@ -63,7 +68,7 @@
               if($headline->tagName == "h2")
               {
                 echo "<a href='".$product->getAttribute("href").$ref."'>".$headline->nodeValue."</a></br>";
-                
+                if(++$i == $limit) break; // Bricht ab $limit automatisch ab.
               }
            }
         }
