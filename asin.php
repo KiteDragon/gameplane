@@ -7,8 +7,8 @@
     <title>Amazon ref link generator GP</title>
   </head>
   <body>
-          <form action="asin.php" method="POST">
-              <label for="search">Suchbegriff oder ASIN eingeben
+          <form method="POST">
+              <label for="searchquery">Suchbegriff oder ASIN eingeben
                     <input type="text" id="searchquery" name="searchquery">
               <input type="submit" value="Suche Artikel"></br>
               </label>
@@ -29,12 +29,19 @@
   
      if(isset($_POST["searchquery"]))
      {  
+       
+       // Amazon REF-Tag
+       $amazon_tag  = "gameplanede-21";
+       
+       // Ausgabelimit
+       $limit       = 5;
+       
         // blanks durch '+' ersetzen und zum such link zussamensetzen
         $keywordstr = str_replace(" ", "+", $_POST["searchquery"]);
         $searchurl  = "https://www.amazon.de/s/&url=search-alias%3Daps&field-keywords=". $keywordstr;
 
         //Referenz ID 
-        $ref        = "&tag="."gameplanede-21";
+        $ref        = "&tag=".$amazon_tag;
 
         //Download des HTML codes der Ergebnisseite 
         $ch = curl_init($searchurl);
@@ -52,6 +59,8 @@
         $dom->loadHTML($html);
 
         $arr = $dom->getElementsByTagName("a");
+        
+        $i = 0;
 
         // Durchlaufen aller <a> Tags und deren ChildNodes 
         // Aufbau: <a href=[LINK ZUM ARTIKEL]><h2>[BESCHREIBUNG ARTIKEL]</h2></a>
@@ -63,7 +72,7 @@
               if($headline->tagName == "h2")
               {
                 echo "<a href='".$product->getAttribute("href").$ref."'>".$headline->nodeValue."</a></br>";
-                
+                if(++$i == $limit) break; // Bricht ab $limit automatisch ab.
               }
            }
         }
